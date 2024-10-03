@@ -1,4 +1,4 @@
-package com.example.FilmHub.Entity;
+package com.example.FilmHub.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,9 +9,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 import java.util.Date;
+
 import java.util.List;
 
-    @Entity
+@Entity
     @Table(name = "films")
     @Data
     @NoArgsConstructor
@@ -34,5 +35,8 @@ import java.util.List;
         @Min(value = 0, message = "Rating must be positive")
         @Max(value = 10, message = "Rating cannot exceed 10")
         private Double rating;
+
+        @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+     private List<Comment> comments;
     }
 

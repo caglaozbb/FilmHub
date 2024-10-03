@@ -1,8 +1,8 @@
 package com.example.FilmHub.Repository;
 
-import com.example.FilmHub.Entity.Comment;
-import com.example.FilmHub.Entity.Film;
-import com.example.FilmHub.Entity.User;
+import com.example.FilmHub.Model.Comment;
+import com.example.FilmHub.Model.Film;
+import com.example.FilmHub.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

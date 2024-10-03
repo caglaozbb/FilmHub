@@ -1,14 +1,17 @@
 package com.example.FilmHub.Service;
 
-
-import com.example.FilmHub.Entity.Comment;
-import com.example.FilmHub.Entity.Film;
-import com.example.FilmHub.Entity.User;
+import com.example.FilmHub.Model.Request.CommentDto;
+import com.example.FilmHub.Model.Request.UserDto;
+import com.example.FilmHub.Model.Request.FilmDto;
+import com.example.FilmHub.Model.Comment;
+import com.example.FilmHub.Model.Film;
+import com.example.FilmHub.Model.User;
 import com.example.FilmHub.Repository.CommentRepository;
+import com.example.FilmHub.Repository.FilmRepository;
+import com.example.FilmHub.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,17 +19,39 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final FilmRepository filmRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, FilmRepository filmRepository, UserRepository userRepository) {
         this.commentRepository = commentRepository;
+        this.filmRepository = filmRepository;
+        this.userRepository = userRepository;
     }
 
-    // Yorum oluştur
-    public Comment createComment(Comment comment) {
-        comment.setCreatedAt(new Date()); // Yorum oluşturulma tarihini güncel tarih olarak ayarla
+    public Comment createComment(CommentDto commentDto, Long userId) {
+        // Film nesnesini bul
+        Film film = filmRepository.findById(commentDto.getFilmId())
+                .orElseThrow(() -> new IllegalArgumentException("Film not found"));
+
+        // Kullanıcıyı bul
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Yeni yorum nesnesini oluştur
+        Comment comment = new Comment();
+        comment.setFilm(film);
+        comment.setUser(user);
+        comment.setComment(commentDto.getComment());
+
+        // Yorumun kullanıcının ve filmin listesine eklenmesi
+        film.getComments().add(comment);
+        user.getComments().add(comment);
+
+        // Yorumun kaydedilmesi
         return commentRepository.save(comment);
     }
+
 
     // Tüm yorumları getir
     public List<Comment> getAllComments() {

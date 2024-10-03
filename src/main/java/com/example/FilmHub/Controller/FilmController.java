@@ -1,7 +1,7 @@
 package com.example.FilmHub.Controller;
 
 
-import com.example.FilmHub.Entity.Film;
+import com.example.FilmHub.Model.Film;
 import com.example.FilmHub.Service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,7 @@
 package com.example.FilmHub.Controller;
 
-import com.example.FilmHub.Entity.User;
+import com.example.FilmHub.Model.User;
+import com.example.FilmHub.Model.Request.UserDto;
 import com.example.FilmHub.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
     // Tüm kullanıcıları getir
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -55,9 +55,9 @@ public class UserController {
 
     // Yeni kullanıcı oluştur
     @PostMapping
-    public ResponseEntity<User> createUser(@Validated @RequestBody User user) {
+    public ResponseEntity<User> createUser(@Validated @RequestBody UserDto userDto) {
         try {
-            User createdUser = userService.createUser(user);
+            User createdUser = userService.createUser(userDto);
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);

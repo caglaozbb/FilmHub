@@ -1,6 +1,6 @@
 package com.example.FilmHub.Service;
 
-import com.example.FilmHub.Entity.Film;
+import com.example.FilmHub.Model.Film;
 import com.example.FilmHub.Repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

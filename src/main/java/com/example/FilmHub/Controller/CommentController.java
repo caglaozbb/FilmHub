@@ -1,9 +1,9 @@
 package com.example.FilmHub.Controller;
 
-
-import com.example.FilmHub.Entity.Comment;
-import com.example.FilmHub.Entity.Film;
-import com.example.FilmHub.Entity.User;
+import com.example.FilmHub.Model.Request.CommentDto;
+import com.example.FilmHub.Model.Comment;
+import com.example.FilmHub.Model.Film;
+import com.example.FilmHub.Model.User;
 import com.example.FilmHub.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,10 +61,9 @@ public class CommentController {
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
-    // Yeni yorum oluştur
     @PostMapping
-    public ResponseEntity<Comment> createComment(@Validated @RequestBody Comment comment) {
-        Comment createdComment = commentService.createComment(comment);
+    public ResponseEntity<Comment> createComment(@Validated @RequestBody CommentDto commentDto, @RequestParam Long userId) {
+        Comment createdComment = commentService.createComment(commentDto, userId);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
 

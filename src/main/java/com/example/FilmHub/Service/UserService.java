@@ -1,6 +1,7 @@
 package com.example.FilmHub.Service;
 
-import com.example.FilmHub.Entity.User;
+import com.example.FilmHub.Model.User;
+import com.example.FilmHub.Model.Request.UserDto;
 //import com.example.FilmHub.Exception.ValidationException; // Özel istisna sınıfını kullanmak için eklenmeli
 import com.example.FilmHub.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,16 +40,12 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    // Yeni kullanıcı oluştur
-    public User createUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists.");
-        }
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalArgumentException("Username already exists.");
-        }
-        // Şifreyi hashle
-//        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+    // Kullanıcı oluşturma
+    public User createUser(UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        // comments alanını set etmeye gerek yok çünkü varsayılan olarak boş bir liste
         return userRepository.save(user);
     }
 
