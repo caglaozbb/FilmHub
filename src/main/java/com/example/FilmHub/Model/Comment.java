@@ -1,11 +1,15 @@
 package com.example.FilmHub.Entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,6 +36,6 @@ public class Comment {
     @NotNull(message = "Comment cannot be null")
     private String comment;
 
-    @NotNull(message = "Creation date cannot be null")
-    private Date createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

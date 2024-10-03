@@ -10,9 +10,13 @@ import jakarta.validation.constraints.Size;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "users")
-@Data
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+})@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {

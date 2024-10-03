@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 import java.util.Date;
+import java.util.List;
 
     @Entity
     @Table(name = "films")
