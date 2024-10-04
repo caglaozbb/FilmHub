@@ -14,6 +14,8 @@ Movie enthusiasts and cinema lovers.
 ##  MVP Structure
 The project is developed using a minimum viable product (MVP) approach, which allows for rapid delivery of core functionality and facilitates future enhancements based on user feedback.
 
+<img src="https://github.com/caglaozbb/FilmHub/blob/main/img/Screenshot%202024-10-03%20at%2000.22.10.png" alt="Database Diagrams" width="500"/>
+
 ##  Layered Architecture
 - **Controller:** API endpoints are defined here.
 - **Service:** Business logic is implemented here.
@@ -42,6 +44,7 @@ The project is developed using a minimum viable product (MVP) approach, which al
 - **film_id:** (Foreign Key)
 - **comment:** (String)
 - **created_at:** (Date)
+<img src="https://github.com/caglaozbb/FilmHub/blob/main/img/Screenshot%202024-10-04%20at%2022.02.18.png" alt="Database Diagrams" width="500"/>
 
 ###   API Endpoints
 ####   User Management
@@ -52,6 +55,7 @@ The project is developed using a minimum viable product (MVP) approach, which al
 - `POST /users`
 - `GET /users/username`
 - `GET /users/email`
+<img src="https://github.com/caglaozbb/FilmHub/blob/main/img/Screenshot%202024-10-04%20at%2021.53.15.png" alt="Database Diagrams" width="500"/>
 
 ###  Film Management
 - `GET /films/{id}`
@@ -61,6 +65,7 @@ The project is developed using a minimum viable product (MVP) approach, which al
 - `GET /films/rating`
 - `PUT /films/{id}`
 - `DELETE /films/{id}`
+<img src="https://github.com/caglaozbb/FilmHub/blob/main/img/Screenshot%202024-10-04%20at%2021.53.20.png" alt="Database Diagrams" width="500"/>
 
 ###  Comment Management
 - `POST /comments`
@@ -71,12 +76,15 @@ The project is developed using a minimum viable product (MVP) approach, which al
 - `GET /comments`
 - `PUT /comments/{id}`
 - `DELETE /comments/{id}`
+<img src="https://github.com/caglaozbb/FilmHub/blob/main/img/Screenshot%202024-10-04%20at%2021.53.25.png" alt="Database Diagrams" width="500"/>
 
 ##  Spring Security Integration
 An authentication mechanism allows users to add and update only their own comments. Admin and User roles with session management using JWT (JSON Web Token).
 
 ##  Writing Unit Tests
 Unit tests for the Service and Controller layers have been created using JUnit and Mockito.
+<img src="https://github.com/caglaozbb/FilmHub/blob/main/img/Screenshot%202024-10-04%20at%2021.54.06.png" alt="Database Diagrams" width="500"/>
+<img src="https://github.com/caglaozbb/FilmHub/blob/main/img/Screenshot%202024-10-04%20at%2021.54.19.png" alt="Database Diagrams" width="500"/>
 
 ##  Swagger Integration
 Use Swagger UI to display endpoint information and provide documentation for the APIs.
@@ -90,6 +98,3 @@ Use Swagger UI to display endpoint information and provide documentation for the
 6. **Writing Unit Tests:** Test scenarios were added to the service and controller layers.
 7. **Using Docker:** Dockerfile and docker-compose.yml files were created to dockerize the project.
 
-###  Database Diagrams:
-###  Screenshots:
-###  Test Screenshots:
