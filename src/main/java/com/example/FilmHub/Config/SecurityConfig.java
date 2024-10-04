@@ -41,7 +41,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // CSRF korumasını devre dışı bırakıyoruz
-                .cors(AbstractHttpConfigurer::disable)  // CORS'u devre dışı bırakıyoruz
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()  // Kayıt işlemleri serbest
                         .requestMatchers("/swagger-ui/").permitAll()  // Swagger UI erişimi serbest
@@ -52,7 +52,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated()  // Diğer tüm isteklere kimlik doğrulama gerekli
                 )
                 .httpBasic(withDefaults())  // Temel kimlik doğrulama
-                .formLogin(withDefaults())  // Varsayılan login formunu etkinleştirir
+                .formLogin(login -> login
+                        .defaultSuccessUrl("/swagger-ui.html", true)  // Giriş sonrası yönlendirme
+                        .permitAll()
+                )
                 .logout(withDefaults());  // Logout işlemi için varsayılan ayarları kullanır
 
         return http.build();

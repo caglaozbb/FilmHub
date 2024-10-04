@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -167,6 +168,35 @@ class UserServiceTest {
         // Repository'nin doğru şekilde çağrıldığını doğrula
         verify(userRepository, times(1)).existsById(userId);
         verify(userRepository, never()).deleteById(userId); // deleteById çağrılmadığından emin ol
+    }
+    @Test
+    void testCreateUser() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("testUser");
+        userDto.setEmail("testUser@example.com");
+        userDto.setPassword("password123");
+        userDto.setRole("USER");
+
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        user.setRole(userDto.getRole());
+
+        // Mock repository save davranışı
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        // Servis metodunu test ediyoruz
+        User createdUser = userService.createUser(userDto);
+
+        // Sonuçları kontrol edelim
+        assertNotNull(createdUser);
+        assertEquals("testUser", createdUser.getUsername());
+        assertEquals("testUser@example.com", createdUser.getEmail());
+        assertNotEquals("password123", createdUser.getPassword()); // Şifrenin hashlenmiş olduğunu kontrol et
+
+        // Repository'nin doğru şekilde çağrıldığını doğrula
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
 
