@@ -5,14 +5,21 @@ import com.example.FilmHub.Model.Request.UserDto;
 //import com.example.FilmHub.Exception.ValidationException; // Özel istisna sınıfını kullanmak için eklenmeli
 import com.example.FilmHub.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.Collection;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
-
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
@@ -45,7 +52,9 @@ public class UserService {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
-        // comments alanını set etmeye gerek yok çünkü varsayılan olarak boş bir liste
+
+        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        user.setRole(userDto.getRole());
         return userRepository.save(user);
     }
 
@@ -67,4 +76,15 @@ public class UserService {
             throw new IllegalArgumentException("User not found.");
         }
     }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities(user));
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        return List.of(new SimpleGrantedAuthority(user.getRole()));
+    }
 }
+
